@@ -1,1 +1,2 @@
-# mathgame1
+# Mathgame
+Математическая игра

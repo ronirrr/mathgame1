@@ -1,0 +1,151 @@
+﻿@page "/"
+
+<head>
+    <link rel="stylesheet" href="css/StyleSheet1.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<div class="game-container">
+    <h1 class="game-title"><i class="fa-solid fa-calculator"></i> Математическая Игра</h1>
+
+    @if (gameOver)
+    {
+        <div class="game-over-message">
+            <p><i class="fa-solid fa-flag-checkered"></i> Игра окончена! Ваш счет: @score. Хотите начать заново?</p>
+            <button class="btn btn-primary new-game-button" @onclick="StartNewGame"><i class="fa-solid fa-play"></i> Новая игра</button>
+        </div>
+    }
+    else
+    {
+        <div class="game-info">
+            <p><i class="fa-solid fa-signal"></i> Уровень: @level</p>
+            <p><i class="fa-solid fa-star"></i> Счет: @score</p>
+        </div>
+
+        @if (currentQuestion != null)
+        {
+            <div class="question-area">
+                <p class="question-text"><i class="fa-solid fa-question"></i> Вопрос: @currentQuestion.QuestionText</p>
+                <input type="number" class="answer-input" @bind="userAnswer" />
+                <button class="btn btn-primary answer-button" @onclick="CheckAnswer"><i class="fa-solid fa-check"></i> Ответить</button>
+            </div>
+        }
+    }
+    </div>
+@code   
+{
+    private int level = 1;
+    private int score = 0;
+    private Question currentQuestion;
+    private int userAnswer;
+    private bool gameOver = false;
+
+    protected override void OnInitialized()
+    {
+        GenerateQuestion();
+    }
+
+    public void GenerateQuestion()
+    {
+        currentQuestion = MathQuestionGenerator.GenerateQuestion(level);
+    }
+
+    public void CheckAnswer()
+    {
+        if (userAnswer == currentQuestion.Answer)
+        {
+            score++;
+            level++;
+            GenerateQuestion();
+        }
+        else
+        {
+            gameOver = true;
+        }
+    }
+
+    public void StartNewGame()
+    {
+        score = 0;
+        level = 1;
+        gameOver = false;
+        GenerateQuestion();
+    }
+
+    public class Question
+    {
+        public string QuestionText { get; set; }
+        public int Answer { get; set; }
+    }
+
+    public static class MathQuestionGenerator
+    {
+        private static readonly Random random = new Random();
+
+        public static Question GenerateQuestion(int level)
+        {
+            return level switch
+            {
+                1 => GenerateAdditionEquation(1, 10),
+                2 => GenerateSubtractionEquation(5, 15),
+                3 => GenerateMultiplicationEquation(2, 5),
+                4 => GenerateDivisionEquation(10, 30, 2, 5),
+                5 => GenerateAdditionEquation(10, 20),
+                6 => GenerateSubtractionEquation(15, 25),
+                _ => GenerateAdditionEquation(1, 10)
+            };
+        }
+
+        private static Question GenerateAdditionEquation(int min, int max)
+        {
+            int a = random.Next(min, max + 1);
+            int b = random.Next(min, max + 1);
+            return new Question
+            {
+                QuestionText = $"{a} + {b} = ?",
+                Answer = a + b
+            };
+        }
+
+        private static Question GenerateSubtractionEquation(int min, int max)
+        {
+            int b = random.Next(min, max + 1);
+            int a = random.Next(b, max + 1); // Ensure a is always greater than or equal to b
+            return new Question
+            {
+                QuestionText = $"{a} - {b} = ?",
+                Answer = a - b
+            };
+        }
+
+        private static Question GenerateMultiplicationEquation(int min, int max)
+        {
+            int a = random.Next(min, max + 1);
+            int b = random.Next(min, max + 1);
+            return new Question
+            {
+                QuestionText = $"{a} * {b} = ?",
+                Answer = a * b
+            };
+        }
+
+        private static Question GenerateDivisionEquation(int minDividend, int maxDividend, int minDivisor, int maxDivisor)
+        {
+            int divisor;
+            int dividend;
+
+            do
+            {
+                divisor = random.Next(minDivisor, maxDivisor + 1);
+                dividend = random.Next(minDividend, maxDividend + 1);
+            } while (divisor == 0 || dividend % divisor != 0); // Ensure no division by zero and that dividend is divisible by divisor
+
+            return new Question
+            {
+                QuestionText = $"{dividend} / {divisor} = ?",
+                Answer = dividend / divisor
+            };
+        }
+    }
+}
+

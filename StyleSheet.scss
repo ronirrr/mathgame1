@@ -1,0 +1,116 @@
+﻿/* General Styles */
+body {
+    font-family: 'Arial', sans-serif; /* Or a fun, child-friendly font */
+    background-color: #f0f8ff; /* Light blue background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px; /* Limit the width */
+}
+
+/* Title */
+.game-title {
+    color: #3a7999;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Game Info (Level, Score) */
+.game-info {
+    margin-bottom: 20px;
+}
+
+.game-info p {
+    font-size: 1.2em;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Question Area */
+.question-area {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #e6f7ff; /* Lighter blue for the question area */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.question-text {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Input and Buttons */
+.answer-input {
+    padding: 12px;
+    font-size: 1.2em;
+    border: 2px solid #a8d5e8; /* Light blue border */
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 300px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.answer-input:focus {
+    outline: none;
+    border-color: #3a7999;
+    box-shadow: 0 0 5px #a8d5e8; /* Add a glow effect */
+}
+
+.btn {
+    padding: 12px 24px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #7ac142; /* Green button */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #5e9432;
+}
+
+/* Game Over Message */
+.game-over-message {
+    font-size: 1.3em;
+    color: #e44d26; /* Orange-red */
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .game-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .game-title {
+        font-size: 2em;
+    }
+
+    .answer-input {
+        width: 90%;
+    }
+}
+/* Font Awesome */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css");
